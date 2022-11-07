@@ -9,6 +9,6 @@ public static class Bootstrapper {
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Initialize() {
         MatchmakingService.ResetStatics();
-        Addressables.InstantiateAsync("CanvasUtilities");
+        //Addressables.InstantiateAsync("CanvasUtilities");
     }
 }
