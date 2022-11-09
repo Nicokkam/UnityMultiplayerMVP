@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -32,6 +33,16 @@ public class PlayerNetworking : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        //if (!IsOwner) Destroy(this);
+
+        if (IsOwner)
+        {
+            Camera c = Camera.main;
+            CinemachineVirtualCamera vc = c.GetComponent<CinemachineVirtualCamera>();
+            vc.Follow = transform;
+            vc.LookAt = transform;
+        }
+
         randomNumber.OnValueChanged += (MyCustomData previousValue, MyCustomData newValue) =>
             Debug.Log($"{OwnerClientId} // {newValue._int} // {newValue._bool} // {newValue.message}");
     }
