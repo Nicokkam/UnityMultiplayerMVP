@@ -40,7 +40,7 @@ public class SpawnTokens : NetworkBehaviour
                 else
                 {
                     spawnedNetworkObject = networkObject;
-                    tokenInstance.GetComponent<TokenInstance>().startTokenAnimation();
+                    //tokenInstance.GetComponent<TokenInstance>().startTokenAnimation();
                     networkObject.Spawn();
                 }
             }
