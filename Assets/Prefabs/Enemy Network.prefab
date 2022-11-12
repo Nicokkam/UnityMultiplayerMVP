@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5843668731025413174}
   - component: {fileID: -6171353002003442057}
   - component: {fileID: 2573255141202893574}
+  - component: {fileID: 4477959691566041087}
   m_Layer: 13
   m_Name: Enemy Network
   m_TagString: Player
@@ -321,3 +322,16 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &4477959691566041087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661912868639658944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 1605217082131907960}

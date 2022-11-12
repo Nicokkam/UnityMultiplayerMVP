@@ -1,5 +1,8 @@
 using Platformer.Core;
 using Platformer.Mechanics;
+using System.Collections;
+using Unity.Netcode;
+using UnityEngine;
 
 namespace Platformer.Gameplay
 {
@@ -17,6 +20,8 @@ namespace Platformer.Gameplay
             enemy.control.enabled = false;
             if (enemy._audio && enemy.ouch)
                 enemy._audio.PlayOneShot(enemy.ouch);
+            enemy.despawnEnemy();
         }
+
     }
 }

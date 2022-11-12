@@ -10,27 +10,30 @@ public class SpawnEnemy : NetworkBehaviour
     [SerializeField] Transform enemyContainer;
     [SerializeField] PatrolPath enemyPath;
 
+    public NetworkObject spawnedNetworkObject;
+
     public override void OnNetworkSpawn()
     {
         SpawnEnemies();
     }
-
     public void SpawnEnemies()
     {
+        if (IsServer == false) return;
+
         Vector3 spawnPosition = transform.position;
 
-    var additonalInstance = Instantiate<GameObject>(enemyPrefabType1, spawnPosition, Quaternion.identity, enemyContainer);
+        var additonalInstance = Instantiate(enemyPrefabType1, spawnPosition, Quaternion.identity, enemyContainer);
         if (additonalInstance.TryGetComponent<NetworkObject>(out var networkObject))
         {
             if (networkObject.IsSpawned)
                 Debug.Log($"Network object {networkObject.NetworkObjectId} has already spawned for {additonalInstance.name}");
             else
             {
+                spawnedNetworkObject = networkObject;
                 if (enemyPath != null)
                     additonalInstance.GetComponent<EnemyController>().path = enemyPath;
-                additonalInstance.name = $"Enemy Type 1";
                 networkObject.Spawn();
             }
         }
     }
- }
+}
