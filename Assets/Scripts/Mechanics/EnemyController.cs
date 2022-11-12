@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Platformer.Gameplay;
+using Unity.Netcode;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 
@@ -10,7 +11,7 @@ namespace Platformer.Mechanics
     /// A simple controller for enemies. Provides movement control over a patrol path.
     /// </summary>
     [RequireComponent(typeof(AnimationController), typeof(Collider2D))]
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : NetworkBehaviour
     {
         public PatrolPath path;
         public AudioClip ouch;
@@ -41,6 +42,25 @@ namespace Platformer.Mechanics
                 ev.enemy = this;
             }
         }
+
+        public void despawnEnemy()
+        {
+            StartCoroutine(despawnEnemyCoroutine());
+        }
+
+        public IEnumerator despawnEnemyCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+
+            NetworkObject spawnedNetworkObject = transform.GetComponent<NetworkObject>();
+
+                if (IsServer && spawnedNetworkObject != null && spawnedNetworkObject.IsSpawned)
+            {
+                spawnedNetworkObject.Despawn();
+            }
+            base.OnNetworkDespawn();
+        }
+
 
         void Update()
         {

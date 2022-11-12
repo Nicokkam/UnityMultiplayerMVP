@@ -30,7 +30,7 @@ namespace Platformer.Mechanics
         internal int frame = 0;
         internal bool collected = false;
 
-        void Awake()
+        public void Start()
         {
             _renderer = GetComponent<SpriteRenderer>();
             if (randomAnimationStartTime)
