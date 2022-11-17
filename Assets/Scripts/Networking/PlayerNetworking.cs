@@ -1,6 +1,9 @@
 using Cinemachine;
+using Platformer.Mechanics;
+using Platformer.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +14,8 @@ public class PlayerNetworking : NetworkBehaviour
     private Transform spawnedObjectTransform;
 
     public bool isOwner;
+
+    public GameObject GameControllerPrefab;
 
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(
         new MyCustomData {
@@ -33,7 +38,8 @@ public class PlayerNetworking : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        //if (!IsOwner) Destroy(this);
+        if (IsSpawned && IsOwnedByServer)
+            ChangeHostColor();
 
         if (IsOwner)
         {
@@ -41,10 +47,37 @@ public class PlayerNetworking : NetworkBehaviour
             CinemachineVirtualCamera vc = c.GetComponent<CinemachineVirtualCamera>();
             vc.Follow = transform;
             vc.LookAt = transform;
+            spawnGameController();
         }
 
         randomNumber.OnValueChanged += (MyCustomData previousValue, MyCustomData newValue) =>
             Debug.Log($"{OwnerClientId} // {newValue._int} // {newValue._bool} // {newValue.message}");
+
+    }
+
+    private void ChangeHostColor()
+    {
+        transform.GetComponent<SpriteRenderer>().color = new Color32(207, 253, 46, 255);
+    }
+
+    private void spawnGameController()
+    {
+        var gameController = Instantiate(GameControllerPrefab);
+        var gameControllerCS = gameController.GetComponent<GameController>();
+        var metaGameControllerCS = gameController.GetComponent<MetaGameController>();
+        var token1 = GameObject.FindWithTag("SpawnPoint1").transform;
+        var token2 = GameObject.FindWithTag("SpawnPoint2").transform;
+
+        gameControllerCS.model.virtualCamera = Camera.main.GetComponent<CinemachineVirtualCamera>();
+        metaGameControllerCS.mainMenu = GameObject.FindWithTag("Canvas").GetComponent<MainUIController>();
+        gameControllerCS.model.player = gameObject.GetComponent<PlayerController>();
+        if (IsOwnedByServer)
+            gameControllerCS.model.spawnPoint = token1;
+        else
+            gameControllerCS.model.spawnPoint = token2;
+
+        metaGameControllerCS.ToggleMainMenu(true);
+        metaGameControllerCS.ToggleMainMenu(false);
     }
 
     void Update()

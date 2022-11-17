@@ -46,6 +46,8 @@ namespace Platformer.UI
 
         void _ToggleMainMenu(bool show)
         {
+            if (mainMenu == null) return;
+
             if (show)
             {
                 Time.timeScale = 0;

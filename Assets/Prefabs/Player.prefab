@@ -327,6 +327,8 @@ MonoBehaviour:
   spawnedObjectPrefab: {fileID: 6261205067362618236, guid: 42e3cbe0a536d6c49a4c7c7346f9e2a2,
     type: 3}
   isOwner: 0
+  GameControllerPrefab: {fileID: 7973706454499312833, guid: 9ca36dd99ecb18a4fb0b480b386b32d3,
+    type: 3}
 --- !u!114 &6506403679707012153
 MonoBehaviour:
   m_ObjectHideFlags: 0
