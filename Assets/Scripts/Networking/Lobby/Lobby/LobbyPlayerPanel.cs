@@ -13,6 +13,6 @@ public class LobbyPlayerPanel : MonoBehaviour {
 
     public void SetReady() {
         _statusText.text = "Ready";
-        _statusText.color = Color.green;
+        _statusText.color = new Color32(39, 174, 96, 255);
     }
 }
